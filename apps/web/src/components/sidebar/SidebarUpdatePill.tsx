@@ -27,7 +27,7 @@ import {
   shouldShowArm64IntelBuildWarning,
   shouldToastDesktopUpdateActionResult,
 } from "../desktopUpdate.logic";
-import { showDesktopUpdateDownloadedToast } from "../desktopUpdate.toast";
+import { blockDesktopUpdateAction, showDesktopUpdateDownloadedToast } from "../desktopUpdate.toast";
 import { useCheckProviderUpdates } from "../ProviderUpdatesAction";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Popover, PopoverCreateHandle, PopoverPopup, PopoverTrigger } from "../ui/popover";
@@ -147,6 +147,7 @@ export async function downloadLocalUpdate(
     reportError = toastUpdateError,
   }: { readonly notifyDownloaded: boolean; readonly reportError?: ReportLocalUpdateError },
 ): Promise<boolean> {
+  if (blockDesktopUpdateAction()) return false;
   try {
     const result = await bridge.downloadUpdate();
     if (result.completed && notifyDownloaded) {
@@ -171,6 +172,7 @@ export async function installLocalUpdate(
   reportError: ReportLocalUpdateError = toastUpdateError,
   expectedVersion?: string,
 ): Promise<boolean> {
+  if (blockDesktopUpdateAction()) return false;
   try {
     const result = await bridge.installUpdate(expectedVersion);
     if (!result.accepted) {
@@ -294,6 +296,7 @@ function SidebarUpdateControl() {
     }
 
     if (!bridge || !state) return;
+    if (action !== "none" && blockDesktopUpdateAction()) return;
     setIsActionPending(true);
 
     if (action === "download") {

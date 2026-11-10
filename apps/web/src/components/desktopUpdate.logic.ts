@@ -21,6 +21,10 @@ function desktopReleaseRepositoryUrl(repository: string | undefined): string {
   return `https://github.com/${releaseRepository}/releases`;
 }
 
+/** Customized fork: set to `null` to let the update button download and install again. */
+export const DESKTOP_UPDATE_BLOCKED_MESSAGE: string | null =
+  "Updates are disabled in this customized build. Installing the official release would replace your changes.";
+
 /** The download RPC can beat the updater's downloadedVersion event; fall back to the requested version. */
 export function getDesktopUpdateDownloadedVersion(state: DesktopUpdateState): string | null {
   return state.downloadedVersion ?? state.availableVersion;

@@ -85,6 +85,7 @@ import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../
 import { Switch } from "../ui/switch";
 import { ScopedSwitch } from "./ScopedSwitch";
 import { stackedThreadToast, toastManager } from "../ui/toast";
+import { blockDesktopUpdateAction } from "../desktopUpdate.toast";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import {
   getChangedBrowserSettingLabels,
@@ -199,6 +200,7 @@ function AboutVersionSection() {
     if (!bridge) return;
 
     const action = updateState ? resolveDesktopUpdateButtonAction(updateState) : "none";
+    if (action !== "none" && blockDesktopUpdateAction()) return;
 
     if (action === "download") {
       void bridge.downloadUpdate().catch((error: unknown) => {

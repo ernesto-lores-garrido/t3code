@@ -2,6 +2,7 @@ import type { DesktopBridge, DesktopUpdateState } from "@t3tools/contracts";
 import { ArrowRightIcon } from "lucide-react";
 
 import {
+  DESKTOP_UPDATE_BLOCKED_MESSAGE,
   getDesktopUpdateDownloadedVersion,
   getDesktopUpdateReleaseUrl,
 } from "./desktopUpdate.logic";
@@ -42,6 +43,17 @@ function ReleaseNotesLink({
       />
     </button>
   );
+}
+
+/** Returns true when the update was blocked, after telling the user why. */
+export function blockDesktopUpdateAction(): boolean {
+  if (DESKTOP_UPDATE_BLOCKED_MESSAGE === null) return false;
+  toastManager.add({
+    type: "warning",
+    title: "Update not applied",
+    description: DESKTOP_UPDATE_BLOCKED_MESSAGE,
+  });
+  return true;
 }
 
 export function showDesktopUpdateDownloadedToast(
