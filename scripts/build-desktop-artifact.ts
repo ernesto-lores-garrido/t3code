@@ -1061,7 +1061,8 @@ export function resolveWindowsServerAsarIgnoreGlobs(arch: typeof BuildArch.Type)
   ];
 }
 
-export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = 80;
+// A native Windows build also bundles the 22-file server compile cache, which CI's Linux-hosted build skips.
+export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = 110;
 export const WINDOWS_SERVER_RESOURCE_SOURCE_DIR = "apps/desktop/prod-resources/windows-server";
 export const WINDOWS_SERVER_EXTRA_RESOURCES = [
   {
