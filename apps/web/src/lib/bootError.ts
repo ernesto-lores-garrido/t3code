@@ -1,5 +1,7 @@
 import type { DesktopBridge, DesktopUpdateState } from "@t3tools/contracts";
 
+import { DESKTOP_UPDATE_BLOCKED_MESSAGE } from "../components/desktopUpdate.logic";
+
 const FALLBACK_TRIAGE_COMMAND = "npx t3 triage";
 const DOWNLOAD_URL = "https://t3.codes/download";
 const ISSUE_URL = "https://github.com/pingdotgg/t3code/issues/new";
@@ -206,7 +208,7 @@ function mountUpdateButton(
 ) {
   let action: ReturnType<typeof updateActionFor> = null;
   const render = (state: DesktopUpdateState) => {
-    action = updateActionFor(state);
+    action = DESKTOP_UPDATE_BLOCKED_MESSAGE === null ? updateActionFor(state) : null;
     button.hidden = action === null;
     // aria-disabled keeps keyboard focus on the button while the download runs.
     button.setAttribute("aria-disabled", String(action?.kind === "downloading"));

@@ -296,7 +296,7 @@ function SidebarUpdateControl() {
     }
 
     if (!bridge || !state) return;
-    if (action !== "none" && blockDesktopUpdateAction()) return;
+    if (action !== "none" && blockDesktopUpdateAction(state)) return;
     setIsActionPending(true);
 
     if (action === "download") {

@@ -200,7 +200,7 @@ function AboutVersionSection() {
     if (!bridge) return;
 
     const action = updateState ? resolveDesktopUpdateButtonAction(updateState) : "none";
-    if (action !== "none" && blockDesktopUpdateAction()) return;
+    if (action !== "none" && blockDesktopUpdateAction(updateState)) return;
 
     if (action === "download") {
       void bridge.downloadUpdate().catch((error: unknown) => {

@@ -46,11 +46,12 @@ function ReleaseNotesLink({
 }
 
 /** Returns true when the update was blocked, after telling the user why. */
-export function blockDesktopUpdateAction(): boolean {
+export function blockDesktopUpdateAction(state?: DesktopUpdateState | null): boolean {
   if (DESKTOP_UPDATE_BLOCKED_MESSAGE === null) return false;
+  const version = state ? getDesktopUpdateDownloadedVersion(state) : null;
   toastManager.add({
     type: "warning",
-    title: "Update not applied",
+    title: version ? `Official version ${version} is available` : "Official update available",
     description: DESKTOP_UPDATE_BLOCKED_MESSAGE,
   });
   return true;
